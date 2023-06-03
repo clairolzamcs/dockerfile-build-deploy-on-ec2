@@ -8,3 +8,11 @@ provider "aws" {
     }
   }
 }
+
+terraform {
+  backend "s3" {
+    bucket = "assignment1-czcs"
+    key    = "prod/terraform.tfstate"
+    region = "us-east-1"
+  }
+}

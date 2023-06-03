@@ -22,12 +22,6 @@ variable "instance_type" {
   description = "Type of the instance"
 }
 
-variable "default_vpc_id" {
-  type        = string
-  default     = "vpc-0f3b6a7843b40626d"
-  description = "ID of your default VPC"
-}
-
 variable "ingress_rules" {
   type = list(object({
     description = string
