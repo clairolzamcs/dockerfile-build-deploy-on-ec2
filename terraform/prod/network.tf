@@ -3,7 +3,7 @@ data "http" "icanhazip" {
   url = "https://ipv4.icanhazip.com/"
 }
 
-# Get existing default vpc metadata. Change the VPC id in inputs.tf
+# Get existing default vpc metadata
 data "aws_vpc" "default" {
   default = true
 }
