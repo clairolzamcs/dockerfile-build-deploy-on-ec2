@@ -14,10 +14,10 @@ resource "aws_security_group" "app_sg" {
   description = "app-security-group"
   vpc_id      = data.aws_vpc.default.id
   ingress {
-    description = "allow HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
+    description = "allow all traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -62,13 +62,14 @@ resource "aws_instance" "app" {
   lifecycle {
     create_before_destroy = true
   }
-  
+
   user_data = <<-EOF
     #!/bin/bash
     yum update -y
     amazon-linux-extras install docker -y
     service docker start
     usermod -a -G docker ec2-user
+    yum install mysql
   EOF
 
   tags = {
