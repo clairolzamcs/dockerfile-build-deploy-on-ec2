@@ -30,8 +30,20 @@ resource "aws_lb_listener" "app" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "app" {
+resource "aws_lb_target_group_attachment" "blue" {
   target_group_arn = aws_lb_target_group.app.arn
-  target_id        = aws_instance.app.id
-  port             = 80
+  target_id        = aws_instance.app.private_ip
+  port             = 8081
+}
+
+resource "aws_lb_target_group_attachment" "pink" {
+  target_group_arn = aws_lb_target_group.app.arn
+  target_id        = aws_instance.app.private_ip
+  port             = 8082
+}
+
+resource "aws_lb_target_group_attachment" "lime" {
+  target_group_arn = aws_lb_target_group.app.arn
+  target_id        = aws_instance.app.private_ip
+  port             = 8083
 }
