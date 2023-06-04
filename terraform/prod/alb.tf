@@ -10,13 +10,13 @@ resource "aws_lb" "app" {
 }
 
 resource "aws_lb_target_group" "app" {
-  name     = "${var.env}-${var.prefix}-tg"
-  port     = 80
-  protocol = "HTTP"
+  name            = "${var.env}-${var.prefix}-tg"
+  port            = 80
+  protocol        = "HTTP"
   ip_address_type = "ipv4"
-  target_type = "ip"
-  
-  vpc_id   = data.aws_vpc.default.id
+  target_type     = "ip"
+
+  vpc_id = data.aws_vpc.default.id
 }
 
 resource "aws_lb_listener" "app" {
