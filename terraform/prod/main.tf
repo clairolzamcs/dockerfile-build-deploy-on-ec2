@@ -69,7 +69,7 @@ resource "aws_instance" "app" {
     amazon-linux-extras install docker -y
     service docker start
     usermod -a -G docker ec2-user
-    yum install mysql
+    sudo yum install mysql
   EOF
 
   tags = {
