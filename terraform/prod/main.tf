@@ -62,6 +62,14 @@ resource "aws_instance" "app" {
   lifecycle {
     create_before_destroy = true
   }
+  
+  user_data = <<-EOF
+    #!/bin/bash
+    yum update -y
+    amazon-linux-extras install docker -y
+    service docker start
+    usermod -a -G docker ec2-user
+  EOF
 
   tags = {
     "Name" = "${var.env}-${var.prefix}-app-${var.owner}"
