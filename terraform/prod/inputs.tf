@@ -18,7 +18,7 @@ variable "owner" {
 
 variable "instance_type" {
   type        = string
-  default     = "t3.micro"
+  default     = "t3.medium"
   description = "Type of the instance"
 }
 

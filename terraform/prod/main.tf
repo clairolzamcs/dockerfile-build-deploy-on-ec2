@@ -58,18 +58,29 @@ resource "aws_instance" "app" {
   security_groups             = [aws_security_group.app_sg.id]
   associate_public_ip_address = true
   iam_instance_profile        = data.aws_iam_instance_profile.lab_profile.name
-
+  
+  root_block_device {
+    volume_size = 16
+  }
+  
   lifecycle {
     create_before_destroy = true
   }
 
   user_data = <<-EOF
-    #!/bin/bash
-    yum update -y
-    amazon-linux-extras install docker -y
-    service docker start
-    usermod -a -G docker ec2-user
+    set -ex
+    sudo yum update -y
+    sudo yum install docker -y
+    sudo systemctl start docker
+    sudo usermod -a -G docker ec2-user
     sudo yum install mysql
+    curl -sLo kind https://kind.sigs.k8s.io/dl/v0.11.0/kind-linux-amd64
+    sudo install -o root -g root -m 0755 kind /usr/local/bin/kind
+    rm -f ./kind
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    rm -f ./kubectl
+    kind create cluster --config kind.yaml​
   EOF
 
   tags = {
